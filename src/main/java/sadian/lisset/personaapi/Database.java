@@ -266,6 +266,90 @@ public class Database {
         }
         return null;
     }
+
+    //users table
+    public static ArrayList<UserModel> selectUsers() {
+        String sql = "SELECT * FROM personadb.users";
+        ArrayList<UserModel> users = new ArrayList<>();
+        try {
+
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(sql);
+
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                users.add(new UserModel(rs.getString("username"), rs.getString("password")
+                        , rs.getString("authority")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
+    public static void createUser(UserModel userM) {
+        String sql = "INSERT INTO personadb.users (username, password, authority) VALUES (?, ?, ?)";
+        try {
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to database");
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, userM.getUsername());
+            pst.setString(2, userM.getPassword());
+            pst.setString(3, userM.getAuthority());
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteUser(String username) {
+        String sql = "DELETE FROM personadb.users WHERE username = ?";
+        try {
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to database");
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, username);
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateUser(String username, UserModel userM) {
+        String sql = "UPDATE personadb.users SET username = ?, password = ?, authority = ? WHERE username = ?";
+        try {
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to database");
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, userM.getUsername());
+            pst.setString(2, userM.getPassword());
+            pst.setString(3, userM.getAuthority());
+            pst.setString(4, username);
+            pst.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void findUser(String username) {
+        String sql = "SELECT * FROM personadb.users WHERE username = ?";
+        try {
+            Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connected to database");
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                if (rs.getString("username").equals(username)) {
+                    System.out.println("Username: " + rs.getString("username") + " Password: " + rs.getString("password") + " Authority: " + rs.getString("authority"));
+                }
+            } else
+                System.out.println("User not found");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
 

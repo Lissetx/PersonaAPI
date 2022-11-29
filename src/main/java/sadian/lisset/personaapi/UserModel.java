@@ -17,14 +17,18 @@ public class UserModel implements UserDetails, Serializable {
 
     private String username;
     private String password;
-    private List<String> authorities = new ArrayList<>();
+    private String authority;
 
     public UserModel() {}
 
-    public UserModel(String username, String password, String...authorities) {
+    public UserModel(String username, String password, String authority) {
         this.setUsername(username);
         this.setPassword(password);
-        this.authorities.addAll(Arrays.asList(authorities));
+        this.setAuthority(authority);
+    }
+
+    private void setAuthority(String authority) {
+        this.authority = authority;
     }
 
     private void setUsername(String username) {
@@ -35,31 +39,14 @@ public class UserModel implements UserDetails, Serializable {
         this.password = password;
     }
 
-    @JsonProperty("authorities")
-    private void setAuthorities(List<String> authorities) {
-        this.authorities = authorities;
+    public String getAuthority() {
+        return this.authority;
     }
 
-    @JsonProperty("authorities")
-    public List<String> getAuthoritiesAsStrings(){
-        return this.authorities;
-    }
 
     @Override
-    @JsonIgnore
-    public Collection<? extends GrantedAuthority> getAuthorities()
-    {
-        return this.authorities.stream().map(s -> new GrantedAuthority() {
-
-                    private static final long serialVersionUID = 1L;
-
-                    @Override
-                    public String getAuthority() {
-                        return s;
-                    }
-
-                })
-                .collect(Collectors.toList());
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
     @Override
@@ -95,7 +82,7 @@ public class UserModel implements UserDetails, Serializable {
 
     @Override
     public String toString() {
-        return "{Username: " + username + ", Password:" + password + ", Authorities: " + authorities + "}";
+        return "{Username: " + username + ", Password:" + password + ", Authorities: " + authority + "}";
     }
 
 
