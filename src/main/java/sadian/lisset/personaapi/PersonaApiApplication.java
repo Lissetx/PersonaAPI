@@ -18,7 +18,7 @@ public class PersonaApiApplication {
     public WebMvcConfigurer corsConfigurer(){ return new
             WebMvcConfigurer() {
                 @Override public void addCorsMappings(CorsRegistry registry) {
-                    registry.addMapping("/**").allowedOrigins("https://localhost:8082").allowedMethods("*");
+            //        registry.addMapping("/**").allowedOrigins("https://localhost:8082").allowedMethods("*");
                     registry.addMapping("/**").allowedOrigins("*").allowedMethods("*");
                     //Database.createPersona("Archangel", "Emperor");
                    // Database.selectPersonas();

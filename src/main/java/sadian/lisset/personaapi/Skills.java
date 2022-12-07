@@ -1,17 +1,35 @@
 package sadian.lisset.personaapi;
 
-public class SkillsModel {
+import javax.persistence.*;
+
+@Entity
+public class Skills {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
+
     public String name;
+
+    @ManyToOne
+    public Personas persona;
+
     public String power;
 
-    public SkillsModel(int id, String name, String power) {
+    public Personas getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Personas persona) {
+        this.persona = persona;
+    }
+
+    public Skills(int id, String name, String power) {
         this.id = id;
         this.name = name;
         this.power = power;
     }
 
-    public SkillsModel() {
+    public Skills() {
     }
 
     public int getId() {

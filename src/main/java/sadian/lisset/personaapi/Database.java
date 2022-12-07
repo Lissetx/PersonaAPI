@@ -2,7 +2,6 @@ package sadian.lisset.personaapi;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Database {
     static String url = "jdbc:mysql://localhost:3306/"
@@ -10,9 +9,9 @@ public class Database {
     static String user = "root";
     static String password = "naruto6678";
 
-    public static ArrayList<PersonaModel> selectPersonas() {
+    public static ArrayList<Personas> selectPersonas() {
         String sql = "SELECT * FROM personadb.personas";
-        ArrayList<PersonaModel> personas = new ArrayList<>();
+        ArrayList<Personas> personas = new ArrayList<>();
         //"SELECT id, name, arcana FROM personadb.personas WHERE id=(?) and name=(?)";
         //SELECT * FROM personadb.personas
         //SELECT id, name, arcana FROM personadb.personas
@@ -33,7 +32,8 @@ public class Database {
 //            }
 
             while (rs.next()) {
-                personas.add(new PersonaModel(rs.getInt("id"), rs.getString("name"), rs.getString("arcana")));
+                personas.add(new Personas(rs.getInt("id"), rs.getString("name"), rs.getString("arcana"),
+                        new ArrayList<>()));
             }
 
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class Database {
 
     }
 
-    public static void createPersona(PersonaModel persona) {
+    public static void createPersona(Personas persona) {
         String sql = "INSERT INTO personadb.personas (name, arcana) VALUES (?, ?)";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -70,7 +70,7 @@ public class Database {
         }
     }
 
-    public static void updatePersona(int id, PersonaModel persona) {
+    public static void updatePersona(int id, Personas persona) {
         String sql = "UPDATE personadb.personas SET name = ?, arcana = ? WHERE id = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -86,7 +86,7 @@ public class Database {
     }
 
     //fiND BY iD
-    public static PersonaModel findPersonaById(int id) {
+    public static Personas findPersonaById(int id) {
         String sql = "SELECT * FROM personadb.personas WHERE id = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -96,7 +96,8 @@ public class Database {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 if (rs.getInt("id") == id) {
-                    return new PersonaModel(rs.getInt("id"), rs.getString("name"), rs.getString("arcana"));
+                    return new Personas(rs.getInt("id"), rs.getString("name"), rs.getString("arcana")   ,
+                            new ArrayList<>());
                 }
             } else
                 return null;
@@ -107,9 +108,9 @@ public class Database {
     }
 
     //CHARACTERS TABLE
-    public static ArrayList<CharacterModel> selectCharacters() {
+    public static ArrayList<Characters> selectCharacters() {
         String sql = "SELECT * FROM personadb.characters";
-        ArrayList<CharacterModel> characters = new ArrayList<>();
+        ArrayList<Characters> characters = new ArrayList<>();
         try {
 
             Connection con = DriverManager.getConnection(url, user, password);
@@ -117,7 +118,7 @@ public class Database {
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                characters.add(new CharacterModel(rs.getInt("id"), rs.getString("name")));
+                characters.add(new Characters(rs.getInt("id"), rs.getString("name")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -125,7 +126,7 @@ public class Database {
         return characters;
     }
 
-    public static void createCharacter(CharacterModel character) {
+    public static void createCharacter(Characters character) {
         String sql = "INSERT INTO personadb.characters (name) VALUES (?)";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -151,7 +152,7 @@ public class Database {
         }
     }
 
-    public static void updateCharacter(int id, CharacterModel character) {
+    public static void updateCharacter(int id, Characters character) {
         String sql = "UPDATE personadb.characters SET name = ? WHERE id = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -165,7 +166,7 @@ public class Database {
         }
     }
 
-    public static CharacterModel findCharacterById(int id) {
+    public static Characters findCharacterById(int id) {
         String sql = "SELECT * FROM personadb.characters WHERE id = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -175,7 +176,7 @@ public class Database {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 if (rs.getInt("id") == id) {
-                    return new CharacterModel(rs.getInt("id"), rs.getString("name"));
+                    return new Characters(rs.getInt("id"), rs.getString("name"));
                 }
             } else
                 return null;
@@ -186,9 +187,9 @@ public class Database {
     }
 
     //Skills Table
-    public static ArrayList<SkillsModel> selectSkills() {
+    public static ArrayList<Skills> selectSkills() {
         String sql = "SELECT * FROM personadb.skills";
-        ArrayList<SkillsModel> skills = new ArrayList<>();
+        ArrayList<Skills> skills = new ArrayList<>();
         try {
 
             Connection con = DriverManager.getConnection(url, user, password);
@@ -196,7 +197,7 @@ public class Database {
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
-                skills.add(new SkillsModel(rs.getInt("id"), rs.getString("name"), rs.getString("power")));
+                skills.add(new Skills(rs.getInt("id"), rs.getString("name"), rs.getString("power")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -204,7 +205,7 @@ public class Database {
         return skills;
     }
 
-    public static void createSkill(SkillsModel skill) {
+    public static void createSkill(Skills skill) {
         String sql = "INSERT INTO personadb.skills (name, power) VALUES (?, ?)";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -231,7 +232,7 @@ public class Database {
         }
     }
 
-    public static void updateSkill(int id, SkillsModel skill) {
+    public static void updateSkill(int id, Skills skill) {
         String sql = "UPDATE personadb.skills SET name = ?, power = ? WHERE id = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -246,7 +247,7 @@ public class Database {
         }
     }
 
-    public static SkillsModel findSkillById(int id) {
+    public static Skills findSkillById(int id) {
         String sql = "SELECT * FROM personadb.skills WHERE id = ?";
         try {
             Connection con = DriverManager.getConnection(url, user, password);
@@ -256,7 +257,7 @@ public class Database {
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
                 if (rs.getInt("id") == id) {
-                    return new SkillsModel(rs.getInt("id"), rs.getString("name"), rs.getString("power"));
+                    return new Skills(rs.getInt("id"), rs.getString("name"), rs.getString("power"));
                 }
             } else
                 return null;

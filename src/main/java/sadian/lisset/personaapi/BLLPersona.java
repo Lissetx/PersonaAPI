@@ -13,9 +13,9 @@ import java.util.List;
 public class BLLPersona {
     private File file = new File("personas.json");
 
-    private List<PersonaModel> personas = new ArrayList<>();
+    private List<Personas> personas = new ArrayList<>();
 
-    public void save(PersonaModel persona) throws IOException {
+    public void save(Personas persona) throws IOException {
 //        List<PersonaModel> personas = findAll();
 
         personas.add(persona);
@@ -27,18 +27,18 @@ public class BLLPersona {
         ow.writeValue(file, personas);
     }
 
-    public List<PersonaModel> findAll() throws IOException {
+    public List<Personas> findAll() throws IOException {
         if(!file.exists()){
             return personas;
         }
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
-        personas = on.readValue(file, new TypeReference<List<PersonaModel>>() {});
+        personas = on.readValue(file, new TypeReference<List<Personas>>() {});
        return personas;
     }
 
-    public PersonaModel findById(int id) throws IOException {
-        for (PersonaModel persona : personas) {
+    public Personas findById(int id) throws IOException {
+        for (Personas persona : personas) {
             if (persona.getId() == id) {
                 return persona;
             }
@@ -47,9 +47,9 @@ public class BLLPersona {
     }
 
 //DELETE MEHTOD
-    public PersonaModel deleteById(int id) throws IOException {
+    public Personas deleteById(int id) throws IOException {
 
-        PersonaModel persona = findById(id);
+        Personas persona = findById(id);
         personas.remove(persona);
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
@@ -61,7 +61,7 @@ public class BLLPersona {
     }
 
 
-    public PersonaModel updateById(int id, PersonaModel persona) throws IOException {
+    public Personas updateById(int id, Personas persona) throws IOException {
         System.out.println("updateById: " + id);
 
         //find the index of the persona to update then set new name and arcana

@@ -13,10 +13,10 @@ import java.util.List;
 public class BLLSkills {
     private File file = new File("skills.json");
 
-    private List<SkillsModel> skills = new ArrayList<>();
+    private List<Skills> skills = new ArrayList<>();
 
-    public void save(SkillsModel skill) throws IOException {
-//        List<CharacterModel> characters = findAll();
+    public void save(Skills skill) throws IOException {
+//        List<Characters> characters = findAll();
         skills.add(skill);
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
@@ -26,18 +26,18 @@ public class BLLSkills {
         ow.writeValue(file, skills);
     }
 
-    public List<SkillsModel> findAll() throws IOException {
+    public List<Skills> findAll() throws IOException {
         if(!file.exists()){
             return skills;
         }
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
-        skills = on.readValue(file, new TypeReference<List<SkillsModel>>() {});
+        skills = on.readValue(file, new TypeReference<List<Skills>>() {});
         return skills;
     }
 
-    public SkillsModel findById(int id) throws IOException {
-        for (SkillsModel skill : skills) {
+    public Skills findById(int id) throws IOException {
+        for (Skills skill : skills) {
             if (skill.getId() == id) {
                 return skill;
             }
@@ -47,8 +47,8 @@ public class BLLSkills {
 
     //DELETE MEHTOD
 
-    public SkillsModel deleteById(int id) throws IOException {
-        SkillsModel skill = findById(id);
+    public Skills deleteById(int id) throws IOException {
+        Skills skill = findById(id);
         skills.remove(skill);
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
@@ -62,7 +62,7 @@ public class BLLSkills {
 
     }
 
-    public SkillsModel updateById(int id, SkillsModel skill) throws IOException {
+    public Skills updateById(int id, Skills skill) throws IOException {
         for(int i = 0; i < skills.size(); i++){
             if(skills.get(i).getId() == id){
                 skills.get(i).setName(skill.getName());

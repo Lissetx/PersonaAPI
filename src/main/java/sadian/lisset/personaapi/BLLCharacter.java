@@ -13,10 +13,10 @@ import java.util.List;
 public class BLLCharacter {
     private File file = new File("characters.json");
 
-    private List<CharacterModel> characters = new ArrayList<>();
+    private List<Characters> characters = new ArrayList<>();
 
-    public void save(CharacterModel character) throws IOException {
-//        List<CharacterModel> characters = findAll();
+    public void save(Characters character) throws IOException {
+//        List<Characters> characters = findAll();
         characters.add(character);
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
@@ -26,18 +26,18 @@ public class BLLCharacter {
         ow.writeValue(file, characters);
     }
 
-    public List<CharacterModel> findAll() throws IOException {
+    public List<Characters> findAll() throws IOException {
         if(!file.exists()){
             return characters;
         }
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
-        characters = on.readValue(file, new TypeReference<List<CharacterModel>>() {});
+        characters = on.readValue(file, new TypeReference<List<Characters>>() {});
         return characters;
     }
 
-    public CharacterModel findById(int id) throws IOException {
-        for (CharacterModel character : characters) {
+    public Characters findById(int id) throws IOException {
+        for (Characters character : characters) {
             if (character.getId() == id) {
                 return character;
             }
@@ -48,7 +48,7 @@ public class BLLCharacter {
     //DELETE MEHTOD
 
     public void deleteById(int id) throws IOException {
-        CharacterModel character = findById(id);
+        Characters character = findById(id);
         characters.remove(character);
         ObjectMapper on = new ObjectMapper();
         on.findAndRegisterModules(); // use this if using less common types like LocalDateTime
@@ -62,7 +62,7 @@ public class BLLCharacter {
 
     }
 
-    public CharacterModel updateById(int id, CharacterModel character) throws IOException {
+    public Characters updateById(int id, Characters character) throws IOException {
 
         for(int i =0; i < characters.size(); i++){
             if(characters.get(i).getId() == id){

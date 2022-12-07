@@ -1,16 +1,22 @@
 package sadian.lisset.personaapi;
 
-public class CharacterModel {
+import javax.persistence.*;
+
+@Entity
+public class Characters{
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
+
     public String name;
 
-    public CharacterModel(int id, String name) {
+    public Characters(int id, String name) {
         this.id = id;
         this.name = name;
 
     }
 
-    public CharacterModel() {
+    public Characters() {
     }
 
     public void setId(int id) {
